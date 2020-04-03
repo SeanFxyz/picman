@@ -1,1 +1,1 @@
-# pat -- Picture Assortment Tool
+# ism -- Image Sorting Machine
