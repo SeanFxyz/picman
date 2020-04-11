@@ -1,24 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
- <widget class="QMainWindow" name="MainWindow" >
-  <property name="geometry" >
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>1145</width>
+    <height>668</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QMenuBar" name="menuBar" />
-  <widget class="QToolBar" name="mainToolBar" />
-  <widget class="QWidget" name="centralWidget" />
-  <widget class="QStatusBar" name="statusBar" />
+  <widget class="QWidget" name="centralWidget">
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>1121</width>
+      <height>611</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="mainHBox">
+     <item>
+      <layout class="QVBoxLayout" name="srcVBox">
+       <item>
+        <layout class="QHBoxLayout" name="srcHeaderHBox">
+         <item>
+          <widget class="QPushButton" name="addSrcButton">
+           <property name="text">
+            <string>Add Source</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="rmSrcButton">
+           <property name="text">
+            <string>Remove</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QListWidget" name="listWidget">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="midVBox">
+       <item>
+        <layout class="QHBoxLayout" name="editToolsHBox">
+         <item>
+          <widget class="QPushButton" name="pushButton">
+           <property name="text">
+            <string>PushButton</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QScrollArea" name="imgScrollArea">
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>806</width>
+            <height>548</height>
+           </rect>
+          </property>
+          <widget class="QLabel" name="imgLabel">
+           <property name="geometry">
+            <rect>
+             <x>340</x>
+             <y>260</y>
+             <width>118</width>
+             <height>29</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>imgLabel</string>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="dstVBox">
+       <item>
+        <layout class="QHBoxLayout" name="dstHeaderHBox"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1145</width>
+     <height>34</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionApply"/>
+    <addaction name="actionAddSource"/>
+    <addaction name="actionAddDestination"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <widget class="QMenu" name="menuList_View">
+     <property name="title">
+      <string>List View</string>
+     </property>
+     <addaction name="actionThumbnails"/>
+     <addaction name="actionFilenames"/>
+     <addaction name="actionFilenamesAndThumbnails"/>
+    </widget>
+    <addaction name="menuList_View"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionCrop"/>
+    <addaction name="actionRotate90Right"/>
+    <addaction name="actionRotate90Left"/>
+    <addaction name="actionRotate180"/>
+    <addaction name="actionClearMetadata"/>
+    <addaction name="actionEditMetadata"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuView"/>
+   <addaction name="menuEdit"/>
+  </widget>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actionApply">
+   <property name="text">
+    <string>Apply Operations</string>
+   </property>
+  </action>
+  <action name="actionThumbnails">
+   <property name="text">
+    <string>Thumbnails</string>
+   </property>
+  </action>
+  <action name="actionFilenames">
+   <property name="text">
+    <string>File names</string>
+   </property>
+  </action>
+  <action name="actionFilenamesAndThumbnails">
+   <property name="text">
+    <string>File names + Thumbnails</string>
+   </property>
+  </action>
+  <action name="actionAddSource">
+   <property name="text">
+    <string>Add Source</string>
+   </property>
+  </action>
+  <action name="actionAddDestination">
+   <property name="text">
+    <string>Add Destination</string>
+   </property>
+  </action>
+  <action name="actionCrop">
+   <property name="text">
+    <string>Crop</string>
+   </property>
+  </action>
+  <action name="actionRotate90Right">
+   <property name="text">
+    <string>Rotate 90° right</string>
+   </property>
+  </action>
+  <action name="actionRotate90Left">
+   <property name="text">
+    <string>Rotate 90° left</string>
+   </property>
+  </action>
+  <action name="actionClearMetadata">
+   <property name="text">
+    <string>Clear metadata (jpg/jpeg)</string>
+   </property>
+  </action>
+  <action name="actionEditMetadata">
+   <property name="text">
+    <string>Edit metadata (jpg/jpeg)</string>
+   </property>
+  </action>
+  <action name="actionRotate180">
+   <property name="text">
+    <string>Rotate 180°</string>
+   </property>
+  </action>
  </widget>
- <layoutDefault spacing="6" margin="11" />
- <pixmapfunction></pixmapfunction>
+ <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections/>
 </ui>
