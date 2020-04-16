@@ -6,126 +6,224 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1145</width>
-    <height>668</height>
+    <width>1451</width>
+    <height>1196</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QWidget" name="horizontalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>1121</width>
-      <height>611</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="mainHBox">
-     <item>
-      <layout class="QVBoxLayout" name="srcVBox">
-       <item>
-        <layout class="QHBoxLayout" name="srcHeaderHBox">
-         <item>
-          <widget class="QPushButton" name="addSrcButton">
-           <property name="text">
-            <string>Add Source</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="rmSrcButton">
-           <property name="text">
-            <string>Remove</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QListWidget" name="listWidget">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="midVBox">
-       <item>
-        <layout class="QHBoxLayout" name="editToolsHBox">
-         <item>
-          <widget class="QPushButton" name="pushButton">
-           <property name="text">
-            <string>PushButton</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QScrollArea" name="imgScrollArea">
-         <property name="widgetResizable">
-          <bool>true</bool>
-         </property>
-         <widget class="QWidget" name="scrollAreaWidgetContents">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>806</width>
-            <height>548</height>
-           </rect>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QVBoxLayout" name="mainVBox">
+      <item>
+       <layout class="QHBoxLayout" name="mainHBox">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetDefaultConstraint</enum>
+        </property>
+        <item>
+         <layout class="QVBoxLayout" name="srcVBox">
+          <item>
+           <layout class="QHBoxLayout" name="srcHeaderHBox">
+            <item>
+             <widget class="QPushButton" name="addSrcButton">
+              <property name="text">
+               <string>Add Source</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="rmSrcButton">
+              <property name="text">
+               <string>Remove</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QListWidget" name="srcList">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="midVBox">
+          <item>
+           <layout class="QHBoxLayout" name="editToolsHBox">
+            <item>
+             <widget class="QPushButton" name="cropButton">
+              <property name="text">
+               <string>✂</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="rot180Button_2">
+              <property name="text">
+               <string>↻</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="rot90LeftButton">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>↶</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="rot90RightButton">
+              <property name="text">
+               <string>↷</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="prevButton">
+              <property name="text">
+               <string>←</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="nextButton">
+              <property name="text">
+               <string>→</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QScrollArea" name="imgScrollArea">
+            <property name="widgetResizable">
+             <bool>true</bool>
+            </property>
+            <widget class="QWidget" name="scrollAreaWidgetContents">
+             <property name="geometry">
+              <rect>
+               <x>0</x>
+               <y>0</y>
+               <width>841</width>
+               <height>800</height>
+              </rect>
+             </property>
+             <widget class="QLabel" name="imgLabel">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>118</width>
+                <height>29</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>imgLabel</string>
+              </property>
+              <property name="scaledContents">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </widget>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="dstVBox">
+          <item>
+           <layout class="QHBoxLayout" name="dstHeaderHBox">
+            <item>
+             <widget class="QPushButton" name="addDstButton">
+              <property name="text">
+               <string>Add Dest.</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="rmDstButton">
+              <property name="text">
+               <string>Remove</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QListWidget" name="dstList">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QListWidget" name="listWidget">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="tabKeyNavigation">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="applyHBox">
+        <item>
+         <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string>Apply</string>
           </property>
-          <widget class="QLabel" name="imgLabel">
-           <property name="geometry">
-            <rect>
-             <x>340</x>
-             <y>260</y>
-             <width>118</width>
-             <height>29</height>
-            </rect>
-           </property>
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>imgLabel</string>
-           </property>
-           <property name="scaledContents">
-            <bool>true</bool>
-           </property>
-          </widget>
          </widget>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="dstVBox">
-       <item>
-        <layout class="QHBoxLayout" name="dstHeaderHBox"/>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </widget>
+        </item>
+        <item>
+         <widget class="QProgressBar" name="progressBar">
+          <property name="value">
+           <number>0</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1145</width>
+     <width>1451</width>
      <height>34</height>
     </rect>
    </property>
