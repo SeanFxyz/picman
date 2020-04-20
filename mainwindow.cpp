@@ -77,3 +77,6 @@ QStringList MainWindow::expandFileList(QStringList file_list)
     }
     return new_file_list;
 }
+bool MainWindow::isImage(QString file)
+{
+}

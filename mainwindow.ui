@@ -120,6 +120,24 @@
            </layout>
           </item>
           <item>
+           <layout class="QHBoxLayout" name="renameHBox">
+            <item>
+             <widget class="QLineEdit" name="renameLineEdit">
+              <property name="text">
+               <string/>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="renameButton">
+              <property name="text">
+               <string>Rename</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
            <widget class="QScrollArea" name="imgScrollArea">
             <property name="widgetResizable">
              <bool>true</bool>
@@ -130,7 +148,7 @@
                <x>0</x>
                <y>0</y>
                <width>841</width>
-               <height>800</height>
+               <height>743</height>
               </rect>
              </property>
              <widget class="QLabel" name="imgLabel">

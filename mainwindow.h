@@ -39,6 +39,7 @@ private slots:
     void dstFilesSelected(QStringList selected);
 
     QStringList expandFileList(QStringList file_list);
+    bool isImage(QString file);
 };
 
 #endif // MAINWINDOW_H
