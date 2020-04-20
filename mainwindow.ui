@@ -25,13 +25,24 @@
         <item>
          <layout class="QVBoxLayout" name="srcVBox">
           <item>
-           <layout class="QHBoxLayout" name="srcHeaderHBox">
+           <layout class="QVBoxLayout" name="srcHeaderVBox">
             <item>
-             <widget class="QPushButton" name="addSrcButton">
-              <property name="text">
-               <string>Add Source</string>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="addSrcHBox">
+              <item>
+               <widget class="QPushButton" name="addSrcButton">
+                <property name="text">
+                 <string>Add Source</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="addFileButton">
+                <property name="text">
+                 <string>Add File</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
              <widget class="QPushButton" name="rmSrcButton">
