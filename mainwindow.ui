@@ -29,16 +29,16 @@
             <item>
              <layout class="QHBoxLayout" name="addSrcHBox">
               <item>
-               <widget class="QPushButton" name="addSrcButton">
+               <widget class="QPushButton" name="addDirButton">
                 <property name="text">
-                 <string>Add Source</string>
+                 <string>Add Folder</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="addFileButton">
+               <widget class="QPushButton" name="addFilesButton">
                 <property name="text">
-                 <string>Add File</string>
+                 <string>Add Files</string>
                 </property>
                </widget>
               </item>
@@ -69,6 +69,13 @@
          <layout class="QVBoxLayout" name="midVBox">
           <item>
            <layout class="QHBoxLayout" name="editToolsHBox">
+            <item>
+             <widget class="QPushButton" name="delButton">
+              <property name="text">
+               <string>🗑</string>
+              </property>
+             </widget>
+            </item>
             <item>
              <widget class="QPushButton" name="cropButton">
               <property name="text">
@@ -147,7 +154,7 @@
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>841</width>
+               <width>837</width>
                <height>743</height>
               </rect>
              </property>

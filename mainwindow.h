@@ -5,6 +5,9 @@
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QListWidget>
+#include <QImageReader>
+#include <QImage>
+#include <QDirIterator>
 
 namespace Ui {
 class MainWindow;
@@ -25,9 +28,16 @@ private:
     QFileDialog* file_dialog;
     QListWidget* src_list = findChild<QListWidget*>("srcList");
 
+    void openFileDialog(QFileDialog::FileMode mode);
+    void addSrc(QString src);
+    void addDst(QString dst);
+
+    QStringList expandDir(QString dir);
+
 private slots:
-    void on_addSrcButton_clicked();
+    void on_addDirButton_clicked();
     void on_rmSrcButton_clicked();
+    void on_addFilesButton_clicked();
     void on_cropButton_clicked();
     void on_prevButton_clicked();
     void on_nextButton_clicked();
@@ -39,7 +49,7 @@ private slots:
     void dstFilesSelected(QStringList selected);
 
     QStringList expandFileList(QStringList file_list);
-    bool isImage(QString file);
+    bool isSupportedFile(QString file);
 };
 
 #endif // MAINWINDOW_H
