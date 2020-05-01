@@ -1,1 +1,1 @@
-# ism -- Image Sorting Machine
+# Picman -- Picture Management helper tool
