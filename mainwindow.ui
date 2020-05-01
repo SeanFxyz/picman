@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <layout class="QVBoxLayout" name="mainVBox">
       <item>
@@ -60,6 +60,24 @@
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="movement">
+             <enum>QListView::Static</enum>
+            </property>
+            <property name="flow">
+             <enum>QListView::TopToBottom</enum>
+            </property>
+            <property name="isWrapping" stdset="0">
+             <bool>false</bool>
+            </property>
+            <property name="viewMode">
+             <enum>QListView::IconMode</enum>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+            <property name="itemAlignment">
+             <set>Qt::AlignHCenter</set>
             </property>
            </widget>
           </item>
@@ -149,37 +167,24 @@
             <property name="widgetResizable">
              <bool>true</bool>
             </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
             <widget class="QWidget" name="scrollAreaWidgetContents">
              <property name="geometry">
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>837</width>
+               <width>835</width>
                <height>743</height>
               </rect>
              </property>
-             <widget class="QLabel" name="imgLabel">
-              <property name="geometry">
-               <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>118</width>
-                <height>29</height>
-               </rect>
-              </property>
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>imgLabel</string>
-              </property>
-              <property name="scaledContents">
-               <bool>true</bool>
-              </property>
-             </widget>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
             </widget>
            </widget>
           </item>
@@ -188,18 +193,29 @@
         <item>
          <layout class="QVBoxLayout" name="dstVBox">
           <item>
-           <layout class="QHBoxLayout" name="dstHeaderHBox">
+           <layout class="QVBoxLayout" name="dstHeaderVBox">
             <item>
-             <widget class="QPushButton" name="addDstButton">
-              <property name="text">
-               <string>Add Dest.</string>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="addRmDstHBox">
+              <item>
+               <widget class="QPushButton" name="addDstButton">
+                <property name="text">
+                 <string>Add Dest.</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="rmDstButton">
+                <property name="text">
+                 <string>Remove</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
-             <widget class="QPushButton" name="rmDstButton">
+             <widget class="QPushButton" name="copyButton">
               <property name="text">
-               <string>Remove</string>
+               <string>Copy</string>
               </property>
              </widget>
             </item>
