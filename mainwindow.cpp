@@ -106,21 +106,8 @@ void MainWindow::scaleImage(double factor)
 }
 
 /* Queueing file operations */
-void MainWindow::queueCopy(QString src, QString dst)
-{
-    CopyOp copy = {src, dst};
-    queue_list_copy << copy;
-}
 
 /* Doing file operations */
-//void MainWindow::applyOperations()
-//{
-//    //TODO: Start by applying edits to a temp file.
-//}
-//void MainWindow::doCopy(CopyOp copy)
-//{
-//}
-//
 
 /* Slots */
 void MainWindow::on_addDirButton_clicked()

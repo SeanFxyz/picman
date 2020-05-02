@@ -13,12 +13,6 @@
 
 #include "ui_mainwindow.h"
 
-struct CopyOp
-{
-    QString src;
-    QString dst;
-};
-
 namespace Ui {
 class MainWindow;
 }
@@ -50,10 +44,6 @@ private:
     QString current_src;
     QString current_dst;
 
-    /* Operation queue lists */
-    QList<CopyOp> queue_list_copy;
-
-
     /* Image viewer functions */
     void initImageSize();
 
@@ -71,7 +61,9 @@ private:
     void scaleImage(double factor);
     void zoomIn();
     void zoomOut();
+
 private slots:
+
     void on_addDirButton_clicked();
     void on_rmSrcButton_clicked();
     void on_addFilesButton_clicked();
