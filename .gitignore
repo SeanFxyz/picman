@@ -1,5 +1,7 @@
 # Compiled binary
-ism
+picman
+
+# test image folder
 test/
 
 # C++ objects and libs

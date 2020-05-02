@@ -15,8 +15,9 @@ MainWindow::MainWindow(QWidget *parent) :
     src_list_widget = findChild<QListWidget*>("srcList");
     dst_list_widget = findChild<QListWidget*>("dstList");
 
-    //img_label = findChild<QLabel*>("imgLabel");
+    img_label.setScaledContents(true);
     img_scroll_area = findChild<QScrollArea*>("imgScrollArea");
+    img_scroll_area->setWidget(&img_label);
 
     file_dialog = nullptr;
 }
@@ -24,72 +25,8 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-void MainWindow::on_addDirButton_clicked()
-{
-    openFileDialog(QFileDialog::Directory);
-    connect(file_dialog, &QFileDialog::filesSelected,
-            this, &MainWindow::srcFilesSelected);
-    file_dialog->show();
-}
-void MainWindow::on_addFilesButton_clicked()
-{
-    openFileDialog(QFileDialog::ExistingFiles);
-    connect(file_dialog, &QFileDialog::filesSelected,
-            this, &MainWindow::srcFilesSelected);
-    file_dialog->show();
-}
-void MainWindow::on_rmSrcButton_clicked()
-{
-}
-void MainWindow::on_cropButton_clicked()
-{
-}
-void MainWindow::on_prevButton_clicked()
-{
-}
-void MainWindow::on_nextButton_clicked()
-{
-}
-void MainWindow::on_addDstButton_clicked()
-{
-    openFileDialog(QFileDialog::Directory);
-    connect(file_dialog, &QFileDialog::filesSelected,
-            this, &MainWindow::dstFilesSelected);
-    file_dialog->show();
-}
-void MainWindow::on_rmDstButton_clicked()
-{
-}
-void MainWindow::on_pushButton_clicked()
-{
-}
-void MainWindow::on_copyButton_clicked()
-{
-    queueCopy();
-}
-void MainWindow::srcFilesSelected(QStringList selected)
-{
-    QStringList src_files = expandFileList(selected);
-    cout << "--------------------\n"
-         << "Adding source files:\n";
-    for(int i=0; i < src_files.size(); i++)
-    {
-        cout << src_files.at(i).toLocal8Bit().data() << endl;
-        addSrc(src_files.at(i));
-    }
-    cout << "Done.\n"
-         << "--------------------\n";
 
-}
-void MainWindow::dstFilesSelected(QStringList selected)
-{
-    for(int i=0; i < selected.size(); i++)
-    {
-        QString currentFile = selected.at(i);
-        if(QFileInfo(currentFile).isDir())
-            addDst(currentFile);
-    }
-}
+/* */
 QStringList MainWindow::expandFileList(QStringList file_list)
 {
     QStringList new_file_list;
@@ -141,18 +78,128 @@ void MainWindow::addDst(QString dst)
     dst_dirs << dst;
     new QListWidgetItem(dst, dst_list_widget, QListWidgetItem::Type);
 }
+
+/* Image viewer functions */
+void MainWindow::initImageSize()
+{
+    scale = .99;
+    img_label.setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    img_label.resize(
+                img_label.pixmap()->size().scaled(
+                    img_scroll_area->size() * scale, Qt::KeepAspectRatio));
+}
+void MainWindow::zoomIn()
+{
+    scaleImage(1.25);
+}
+void MainWindow::zoomOut()
+{
+    scaleImage(0.8);
+}
+void MainWindow::scaleImage(double factor)
+{
+    if(img_label.hasScaledContents())
+    {
+        scale *= factor;
+        img_label.resize(scale * img_label.pixmap()->size());
+    }
+}
+
+/* Queueing file operations */
+void MainWindow::queueCopy(QString src, QString dst)
+{
+    CopyOp copy = {src, dst};
+    queue_list_copy << copy;
+}
+
+/* Doing file operations */
+//void MainWindow::applyOperations()
+//{
+//    //TODO: Start by applying edits to a temp file.
+//}
+//void MainWindow::doCopy(CopyOp copy)
+//{
+//}
+//
+
+/* Slots */
+void MainWindow::on_addDirButton_clicked()
+{
+    openFileDialog(QFileDialog::Directory);
+    connect(file_dialog, &QFileDialog::filesSelected,
+            this, &MainWindow::srcFilesSelected);
+    file_dialog->show();
+}
+void MainWindow::on_addFilesButton_clicked()
+{
+    openFileDialog(QFileDialog::ExistingFiles);
+    connect(file_dialog, &QFileDialog::filesSelected,
+            this, &MainWindow::srcFilesSelected);
+    file_dialog->show();
+}
+void MainWindow::on_rmSrcButton_clicked()
+{
+}
+void MainWindow::on_cropButton_clicked()
+{
+}
+void MainWindow::on_prevButton_clicked()
+{
+}
+void MainWindow::on_nextButton_clicked()
+{
+}
+void MainWindow::on_addDstButton_clicked()
+{
+    openFileDialog(QFileDialog::Directory);
+    connect(file_dialog, &QFileDialog::filesSelected,
+            this, &MainWindow::dstFilesSelected);
+    file_dialog->show();
+}
+void MainWindow::on_rmDstButton_clicked()
+{
+}
+void MainWindow::on_pushButton_clicked()
+{
+}
+void MainWindow::on_copyButton_clicked()
+{
+    queueCopy(current_src, current_src);
+}
+void MainWindow::srcFilesSelected(QStringList selected)
+{
+    QStringList src_files = expandFileList(selected);
+    cout << "--------------------\n"
+         << "Adding source files:\n";
+    for(int i=0; i < src_files.size(); i++)
+    {
+        cout << src_files.at(i).toLocal8Bit().data() << endl;
+        addSrc(src_files.at(i));
+    }
+    cout << "Done.\n"
+         << "--------------------\n";
+
+}
+void MainWindow::dstFilesSelected(QStringList selected)
+{
+    for(int i=0; i < selected.size(); i++)
+    {
+        QString currentFile = selected.at(i);
+        if(QFileInfo(currentFile).isDir())
+            addDst(currentFile);
+    }
+}
 void MainWindow::on_dstList_itemDoubleClicked(QListWidgetItem* item)
 {
-    queueCopy();
+    queueCopy(current_src, current_dst);
 }
 void MainWindow::on_srcList_currentItemChanged(
         QListWidgetItem* current,
         QListWidgetItem* previous)
 {
     int i = src_list_widget->row(current);
-    img_label = new QLabel();
-    img_label->setPixmap(QPixmap(src_files.at(i)));
-    img_scroll_area->setWidget(img_label);
+    img_label.setPixmap(QPixmap(src_files.at(i)));
+    initImageSize();
 }
 void MainWindow::on_dstList_currentItemChanged(
         QListWidgetItem* current,
@@ -161,9 +208,11 @@ void MainWindow::on_dstList_currentItemChanged(
     int i = dst_list_widget->row(current);
     current_dst = dst_dirs.at(i);
 }
-
-/* Queueing file operations */
-void MainWindow::queueCopy()
+void MainWindow::on_actionZoomIn_triggered()
 {
-
+    zoomIn();
+}
+void MainWindow::on_actionZoomOut_triggered()
+{
+    zoomOut();
 }

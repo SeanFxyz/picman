@@ -37,9 +37,12 @@ private:
     /* UI elements */
     QListWidget* src_list_widget;
     QListWidget* dst_list_widget;
-    QLabel* img_label;
+    QLabel img_label;
     QScrollArea* img_scroll_area;
     QFileDialog* file_dialog;
+
+    /* Image viewer fields */
+    double scale = 1;
 
     /* File-related data fields */
     QStringList src_files;
@@ -48,9 +51,11 @@ private:
     QString current_dst;
 
     /* Operation queue lists */
-    QList<QString*> queue_list_copy;
-    // A list of pointers to two-item QString arrays. Each array contains
-    // the source file to be copied and the destination directory.
+    QList<CopyOp> queue_list_copy;
+
+
+    /* Image viewer functions */
+    void initImageSize();
 
 
     void openFileDialog(QFileDialog::FileMode mode);
@@ -61,8 +66,11 @@ private:
 
 
     /* Queueing file operations. */
-    void queueCopy();
+    void queueCopy(QString src, QString dst);
 
+    void scaleImage(double factor);
+    void zoomIn();
+    void zoomOut();
 private slots:
     void on_addDirButton_clicked();
     void on_rmSrcButton_clicked();
@@ -85,6 +93,8 @@ private slots:
     void srcFilesSelected(QStringList selected);
     void dstFilesSelected(QStringList selected);
 
+    void on_actionZoomIn_triggered();
+    void on_actionZoomOut_triggered();
 };
 
 #endif // MAINWINDOW_H

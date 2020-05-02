@@ -165,7 +165,7 @@
           <item>
            <widget class="QScrollArea" name="imgScrollArea">
             <property name="widgetResizable">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
             <property name="alignment">
              <set>Qt::AlignCenter</set>
@@ -176,7 +176,7 @@
                <x>0</x>
                <y>0</y>
                <width>835</width>
-               <height>743</height>
+               <height>741</height>
               </rect>
              </property>
              <property name="sizePolicy">
@@ -236,17 +236,21 @@
        </layout>
       </item>
       <item>
-       <widget class="QListWidget" name="listWidget">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="tabKeyNavigation">
-         <bool>false</bool>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="opListHBox">
+        <item>
+         <widget class="QListWidget" name="copyList">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="tabKeyNavigation">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <layout class="QHBoxLayout" name="applyHBox">
@@ -300,6 +304,8 @@
      <addaction name="actionFilenamesAndThumbnails"/>
     </widget>
     <addaction name="menuList_View"/>
+    <addaction name="actionZoomIn"/>
+    <addaction name="actionZoomOut"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -379,6 +385,22 @@
   <action name="actionRotate180">
    <property name="text">
     <string>Rotate 180°</string>
+   </property>
+  </action>
+  <action name="actionZoomIn">
+   <property name="text">
+    <string>Zoom in</string>
+   </property>
+   <property name="shortcut">
+    <string>+</string>
+   </property>
+  </action>
+  <action name="actionZoomOut">
+   <property name="text">
+    <string>Zoom out</string>
+   </property>
+   <property name="shortcut">
+    <string>-</string>
    </property>
   </action>
  </widget>
