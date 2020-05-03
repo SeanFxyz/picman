@@ -306,6 +306,8 @@
     <addaction name="menuList_View"/>
     <addaction name="actionZoomIn"/>
     <addaction name="actionZoomOut"/>
+    <addaction name="actionNextImg"/>
+    <addaction name="actionPrevImg"/>
    </widget>
    <widget class="QMenu" name="menuEdit">
     <property name="title">
@@ -392,7 +394,7 @@
     <string>Zoom in</string>
    </property>
    <property name="shortcut">
-    <string>+</string>
+    <string>K</string>
    </property>
   </action>
   <action name="actionZoomOut">
@@ -400,7 +402,23 @@
     <string>Zoom out</string>
    </property>
    <property name="shortcut">
-    <string>-</string>
+    <string>J</string>
+   </property>
+  </action>
+  <action name="actionNextImg">
+   <property name="text">
+    <string>Next image</string>
+   </property>
+   <property name="shortcut">
+    <string>L</string>
+   </property>
+  </action>
+  <action name="actionPrevImg">
+   <property name="text">
+    <string>Prev image</string>
+   </property>
+   <property name="shortcut">
+    <string>H</string>
    </property>
   </action>
  </widget>
