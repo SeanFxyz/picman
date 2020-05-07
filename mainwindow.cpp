@@ -5,7 +5,6 @@
 
 using namespace std;
 
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -31,6 +30,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::config()
 {
+/* Causes segfaults for some reason */
 //    // Setting up shortcuts
 //    QList<QKeySequence> next_img;
 //    next_img << QKeySequence(Qt::Key_Right)
@@ -73,7 +73,7 @@ bool MainWindow::isSupportedFile(QString file)
 {
     QImageReader img_reader(file);
     QImage img;
-    return (img_reader.canRead() && img_reader.read(&img));
+    return img_reader.read(&img);
 }
 void MainWindow::openFileDialog(QFileDialog::FileMode mode)
 {
@@ -86,8 +86,8 @@ void MainWindow::addSrc(QString src)
         if(src_files.at(i).compare(src) == 0)
             return;
     src_files << src;
-    new QListWidgetItem(QIcon(src), "", src_list_widget,
-                        QListWidgetItem::Type);
+    src_list_widget->addItem(new QListWidgetItem(
+                                 QIcon(src), "", src_list_widget));
 }
 void MainWindow::addDst(QString dst)
 {
@@ -207,16 +207,16 @@ void MainWindow::on_pushButton_clicked()
 }
 void MainWindow::on_copyButton_clicked()
 {
+    queueCopy(current_src, current_dst);
 }
 void MainWindow::srcFilesSelected(QStringList selected)
 {
     QStringList new_files = expandFileList(selected);
     cout << "--------------------\n"
          << "Adding source files:\n";
-    for(int i=0; i < src_files.size(); i++)
+    for(int i=0; i < new_files.size(); i++)
     {
-        cout << new_files.at(i).toLocal8Bit().data() << endl;
-        addSrc(src_files.at(i));
+        addSrc(new_files.at(i));
     }
     cout << "Done.\n"
          << "--------------------\n";
@@ -241,6 +241,7 @@ void MainWindow::on_actionZoomOut_triggered()
 }
 void MainWindow::on_dstList_itemDoubleClicked(QListWidgetItem* item)
 {
+    queueCopy(current_src, current_dst);
 }
 void MainWindow::on_srcList_currentItemChanged(
         QListWidgetItem* current,
@@ -266,4 +267,7 @@ void MainWindow::on_actionNextImg_triggered()
 void MainWindow::on_actionPrevImg_triggered()
 {
     prevImg();
+}
+void MainWindow::queueCopy(QString src, QString dst)
+{
 }
