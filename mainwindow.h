@@ -11,9 +11,13 @@
 #include <QLabel>
 #include <QPushButton>
 
+#include <unordered_map>
+
 #include "ui_mainwindow.h"
 
-enum rotDeg{rot90, rot180, rot270};
+using namespace std;
+
+enum rotDeg{ROT0, ROT90, ROT180, ROT270};
 struct ImgOpData
 {
     QString img;
@@ -24,6 +28,7 @@ struct ImgOpData
 
     rotDeg rot;
 
+    bool crop;
     int crop_x, crop_y;
     QSize crop_size;
 };
@@ -57,10 +62,12 @@ private:
     QStringList dst_dirs;
     QString current_src;
     QString current_dst;
-    QList<ImgOpData> img_op_data;
+    unordered_map<QString, ImgOpData> img_op_map;
 
     /* Private methods */
     void config();
+
+    ImgOpData imgOpDefaults(QString img);
 
     void addSrc(QString src);
     void addDst(QString dst);
@@ -80,7 +87,7 @@ private:
     void zoomOut();
 
     int findSrcIndex(QString src);
-    void rename(QString src);
+    void setName(QString src, QString new_name);
     void queueCopy(QString src, QString dst);
 
 private slots:

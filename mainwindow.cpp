@@ -45,6 +45,19 @@ void MainWindow::config()
 //    findChild<QAction*>("actionPrevImg")->setShortcuts(prev_img);
 }
 
+ImgOpData imgOpDefaults(QString img)
+{
+    ImgOpData defaults;
+    defaults.img = img;
+    defaults.new_name = "";
+    defaults.copy_dirs = QStringList();
+    defaults.rot = ROT0;
+    defaults.crop = false;
+    defaults.crop_x = 0;
+    defaults.crop_y = 0;
+    defaults.crop_size = QSize();
+}
+
 /* */
 QStringList MainWindow::expandFileList(QStringList file_list)
 {
@@ -270,4 +283,23 @@ void MainWindow::on_actionPrevImg_triggered()
 }
 void MainWindow::queueCopy(QString src, QString dst)
 {
+    if(img_op_map.count(src))
+        img_op_map.at(src).copy_dirs << dst;
+    else
+    {
+        ImgOpData new_op_data = imgOpDefaults(src);
+        new_op_data.img = src;
+        img_op_map.emplace(src, new_op_data);
+    }
+}
+void MainWindow::setName(QString src, QString new_name)
+{
+    if(img_op_map.count(src))
+        img_op_map.at(src).new_name = new_name;
+    else
+    {
+        ImgOpData new_op_data = imgOpDefaults(src);
+        new_op_data.new_name = new_name;
+        img_op_map.emplace(src, new_op_data);
+    }
 }
