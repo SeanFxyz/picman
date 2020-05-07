@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     /* UI elements */
     src_list_widget = findChild<QListWidget*>("srcList");
     dst_list_widget = findChild<QListWidget*>("dstList");
+    name_line_edit = findChild<QLineEdit*>("renameLineEdit");
 
     img_label.setScaledContents(true);
     img_scroll_area = findChild<QScrollArea*>("imgScrollArea");
@@ -50,7 +51,7 @@ ImgOpData imgOpDefaults(QString img)
     ImgOpData defaults;
     defaults.img = img;
     defaults.new_name = "";
-    defaults.copy_dirs = QStringList();
+    defaults.copy_dsts = QStringList();
     defaults.rot = ROT0;
     defaults.crop = false;
     defaults.crop_x = 0;
@@ -283,23 +284,20 @@ void MainWindow::on_actionPrevImg_triggered()
 }
 void MainWindow::queueCopy(QString src, QString dst)
 {
+    QString ext = QFileInfo(src).completeSuffix();
+    if(dst.contains('.') == false ||
+            dst.lastIndexOf(ext) != dst.size() - ext.size())
+        dst += ext;
+
     if(img_op_map.count(src))
-        img_op_map.at(src).copy_dirs << dst;
+    {
+        img_op_map.at(src).copy_dsts << dst;
+    }
     else
     {
         ImgOpData new_op_data = imgOpDefaults(src);
         new_op_data.img = src;
-        img_op_map.emplace(src, new_op_data);
-    }
-}
-void MainWindow::setName(QString src, QString new_name)
-{
-    if(img_op_map.count(src))
-        img_op_map.at(src).new_name = new_name;
-    else
-    {
-        ImgOpData new_op_data = imgOpDefaults(src);
-        new_op_data.new_name = new_name;
+        new_op_data.copy_dsts << dst;
         img_op_map.emplace(src, new_op_data);
     }
 }

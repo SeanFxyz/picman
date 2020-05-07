@@ -24,7 +24,7 @@ struct ImgOpData
 
     QString new_name;
 
-    QStringList copy_dirs;
+    QStringList copy_dsts;
 
     rotDeg rot;
 
@@ -51,9 +51,10 @@ private:
     /* UI elements */
     QListWidget* src_list_widget;
     QListWidget* dst_list_widget;
-    QLabel img_label;
     QScrollArea* img_scroll_area;
     QFileDialog* file_dialog;
+    QLineEdit* name_line_edit;
+    QLabel img_label;
 
     double scale = 0.99;
 
@@ -87,7 +88,6 @@ private:
     void zoomOut();
 
     int findSrcIndex(QString src);
-    void setName(QString src, QString new_name);
     void queueCopy(QString src, QString dst);
 
 private slots:
