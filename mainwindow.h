@@ -10,8 +10,8 @@
 #include <QDirIterator>
 #include <QLabel>
 #include <QPushButton>
-
-#include <unordered_map>
+#include <QMap>
+#include <QTemporaryFile>
 
 #include "ui_mainwindow.h"
 
@@ -21,8 +21,6 @@ enum rotDeg{ROT0, ROT90, ROT180, ROT270};
 struct ImgOpData
 {
     QString img;
-
-    QString new_name;
 
     QStringList copy_dsts;
 
@@ -51,10 +49,12 @@ private:
     /* UI elements */
     QListWidget* src_list_widget;
     QListWidget* dst_list_widget;
+    QListWidget* op_list_widget;
     QScrollArea* img_scroll_area;
     QFileDialog* file_dialog;
-    QLineEdit* name_line_edit;
     QLabel* img_label;
+    QLineEdit* name_line_edit;
+    QRegExpValidator name_validator;
 
     double scale = 0.99;
 
@@ -63,7 +63,7 @@ private:
     QStringList dst_dirs;
     QString current_src;
     QString current_dst;
-    QHash<QString, ImgOpData> img_op_hash;
+    QMap<QString, ImgOpData> img_op_map;
 
     /* Private methods */
     void config();
@@ -90,6 +90,8 @@ private:
     int findSrcIndex(QString src);
     void queueCopy(QString src, QString dst);
 
+    void runOps();
+
 private slots:
     void on_addDirButton_clicked();
     void on_rmSrcButton_clicked();
@@ -101,6 +103,7 @@ private slots:
     void on_rmDstButton_clicked();
     void on_pushButton_clicked();
     void on_copyButton_clicked();
+    void on_applyButton_clicked();
     void on_srcList_currentItemChanged(
             QListWidgetItem* current,
             QListWidgetItem* previous);

@@ -14,13 +14,22 @@ MainWindow::MainWindow(QWidget *parent) :
     config();
 
     /* UI elements */
+
+    // QListWidgets
     src_list_widget = findChild<QListWidget*>("srcList");
     dst_list_widget = findChild<QListWidget*>("dstList");
-    name_line_edit = findChild<QLineEdit*>("renameLineEdit");
+    op_list_widget = findChild<QListWidget*>("copyList");
 
+    // Image viewer area setup
+    img_label = new QLabel();
     img_label->setScaledContents(true);
     img_scroll_area = findChild<QScrollArea*>("imgScrollArea");
     img_scroll_area->setWidget(img_label);
+
+    // File name QLineEdit setup
+    name_line_edit = findChild<QLineEdit*>("renameLineEdit");
+    QRegExpValidator name_validator(QRegExp("^[^\\?%*:|\"<>]*$"), this);
+    name_line_edit->setValidator(&name_validator);
 
     file_dialog = nullptr;
 }
@@ -46,11 +55,10 @@ void MainWindow::config()
 //    findChild<QAction*>("actionPrevImg")->setShortcuts(prev_img);
 }
 
-ImgOpData imgOpDefaults(QString img)
+ImgOpData MainWindow::imgOpDefaults(QString img)
 {
     ImgOpData defaults;
     defaults.img = img;
-    defaults.new_name = "";
     defaults.copy_dsts = QStringList();
     defaults.rot = ROT0;
     defaults.crop = false;
@@ -172,8 +180,61 @@ void MainWindow::prevImg()
 }
 
 /* Queueing file operations */
+void MainWindow::queueCopy(QString src, QString dst)
+{
+    if(name_line_edit->text() != "")
+    {
+        dst += '/' + name_line_edit->text();
+        QString ext = QFileInfo(src).completeSuffix();
+        if(dst.lastIndexOf(ext) != dst.size() - ext.size() ||
+                dst.lastIndexOf('.') != dst.size() - ext.size() - 1)
+            dst += '.' + ext;
+    }
+    else
+        dst += '/' + QFileInfo(src).fileName();
+
+    if(img_op_map.count(src))
+        img_op_map[src].copy_dsts << dst;
+    else
+    {
+        ImgOpData new_op_data = imgOpDefaults(src);
+        new_op_data.img = src;
+        new_op_data.copy_dsts << dst;
+        img_op_map[src] = new_op_data;
+    }
+    op_list_widget->addItem(src + " -> " + dst);
+}
 
 /* Doing file operations */
+void MainWindow::runOps()
+{
+    QMap<QString, ImgOpData>::iterator iter;
+    for(iter = img_op_map.begin(); iter != img_op_map.end(); ++iter)
+    {
+        QString copySrc = iter.key();
+        ImgOpData opdata = iter.value();
+        if(opdata.rot != ROT0 || opdata.crop == true)
+        {
+            QTemporaryFile tmp;
+            tmp.setAutoRemove(true);
+            tmp.open();
+            QString tmp_name = tmp.fileName();
+            tmp.remove();
+            QFile(copySrc).copy(tmp_name);
+            copySrc = tmp_name;
+
+            // TODO: run image rotation on temp file
+            // TODO: run crop on temp file
+        }
+        QFile src_file(copySrc);
+        for(int i=0; i < opdata.copy_dsts.size(); i++)
+        {
+            src_file.copy(opdata.copy_dsts.at(i));
+        }
+    }
+    op_list_widget->clear();
+    img_op_map.clear();
+}
 
 /* Slots */
 /* Widget slots */
@@ -224,6 +285,10 @@ void MainWindow::on_copyButton_clicked()
 {
     queueCopy(current_src, current_dst);
 }
+void MainWindow::on_applyButton_clicked()
+{
+    runOps();
+}
 void MainWindow::srcFilesSelected(QStringList selected)
 {
     QStringList new_files = expandFileList(selected);
@@ -262,7 +327,8 @@ void MainWindow::on_srcList_currentItemChanged(
         QListWidgetItem* current,
         QListWidgetItem* previous)
 {
-    img_label->setPixmap(QPixmap(src_files.at(src_list_widget->currentRow())));
+    current_src = src_files.at(src_list_widget->currentRow());
+    img_label->setPixmap(QPixmap(current_src));
     initImageSize();
 }
 void MainWindow::on_dstList_currentItemChanged(
@@ -281,22 +347,4 @@ void MainWindow::on_actionNextImg_triggered()
 void MainWindow::on_actionPrevImg_triggered()
 {
     prevImg();
-}
-void MainWindow::queueCopy(QString src, QString dst)
-{
-    dst += '/' + name_line_edit->text();
-    QString ext = QFileInfo(src).completeSuffix();
-    if(dst.contains('.') == false ||
-            dst.lastIndexOf(ext) != dst.size() - ext.size())
-        dst += ext;
-
-    if(img_op_hash.count(src))
-        img_op_hash[src].copy_dsts << dst;
-    else
-    {
-        ImgOpData new_op_data = imgOpDefaults(src);
-        new_op_data.img = src;
-        new_op_data.copy_dsts << dst;
-        img_op_hash[src] = new_op_data;
-    }
 }

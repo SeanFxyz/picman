@@ -147,16 +147,16 @@
           <item>
            <layout class="QHBoxLayout" name="renameHBox">
             <item>
-             <widget class="QLineEdit" name="renameLineEdit">
+             <widget class="QLabel" name="label">
               <property name="text">
-               <string/>
+               <string>Rename:</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="renameButton">
+             <widget class="QLineEdit" name="renameLineEdit">
               <property name="text">
-               <string>Rename</string>
+               <string/>
               </property>
              </widget>
             </item>
@@ -174,7 +174,7 @@
              <property name="geometry">
               <rect>
                <x>0</x>
-               <y>0</y>
+               <y>3</y>
                <width>835</width>
                <height>741</height>
               </rect>
@@ -255,7 +255,7 @@
       <item>
        <layout class="QHBoxLayout" name="applyHBox">
         <item>
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="applyButton">
           <property name="text">
            <string>Apply</string>
           </property>
