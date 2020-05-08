@@ -57,6 +57,7 @@ ImgOpData imgOpDefaults(QString img)
     defaults.crop_x = 0;
     defaults.crop_y = 0;
     defaults.crop_size = QSize();
+    return defaults;
 }
 
 /* */
