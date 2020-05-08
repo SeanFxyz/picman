@@ -54,7 +54,7 @@ private:
     QScrollArea* img_scroll_area;
     QFileDialog* file_dialog;
     QLineEdit* name_line_edit;
-    QLabel img_label;
+    QLabel* img_label;
 
     double scale = 0.99;
 
@@ -63,7 +63,7 @@ private:
     QStringList dst_dirs;
     QString current_src;
     QString current_dst;
-    unordered_map<QString, ImgOpData> img_op_map;
+    QHash<QString, ImgOpData> img_op_hash;
 
     /* Private methods */
     void config();

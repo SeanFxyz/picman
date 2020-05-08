@@ -289,15 +289,13 @@ void MainWindow::queueCopy(QString src, QString dst)
             dst.lastIndexOf(ext) != dst.size() - ext.size())
         dst += ext;
 
-    if(img_op_map.count(src))
-    {
-        img_op_map.at(src).copy_dsts << dst;
-    }
+    if(img_op_hash.count(src))
+        img_op_hash[src].copy_dsts << dst;
     else
     {
         ImgOpData new_op_data = imgOpDefaults(src);
         new_op_data.img = src;
         new_op_data.copy_dsts << dst;
-        img_op_map.emplace(src, new_op_data);
+        img_op_hash[src] = new_op_data;
     }
 }
