@@ -18,9 +18,9 @@ MainWindow::MainWindow(QWidget *parent) :
     dst_list_widget = findChild<QListWidget*>("dstList");
     name_line_edit = findChild<QLineEdit*>("renameLineEdit");
 
-    img_label.setScaledContents(true);
+    img_label->setScaledContents(true);
     img_scroll_area = findChild<QScrollArea*>("imgScrollArea");
-    img_scroll_area->setWidget(&img_label);
+    img_scroll_area->setWidget(img_label);
 
     file_dialog = nullptr;
 }
@@ -140,9 +140,9 @@ void MainWindow::rmDst(QString dst)
 void MainWindow::initImageSize()
 {
     scale = .99;
-    img_label.setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    img_label.resize(
-                img_label.pixmap()->size().scaled(
+    img_label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    img_label->resize(
+                img_label->pixmap()->size().scaled(
                     img_scroll_area->size() * scale, Qt::KeepAspectRatio));
 }
 void MainWindow::zoomIn()
@@ -155,10 +155,10 @@ void MainWindow::zoomOut()
 }
 void MainWindow::scaleImage(double factor)
 {
-    if(img_label.hasScaledContents())
+    if(img_label->hasScaledContents())
     {
         scale *= factor;
-        img_label.resize(factor * img_label.size());
+        img_label->resize(factor * img_label->size());
     }
 }
 void MainWindow::nextImg()
@@ -261,16 +261,15 @@ void MainWindow::on_srcList_currentItemChanged(
         QListWidgetItem* current,
         QListWidgetItem* previous)
 {
-    int i = src_list_widget->row(current);
-    img_label.setPixmap(QPixmap(src_files.at(i)));
+    img_label->setPixmap(QPixmap(src_files.at(src_list_widget->currentRow())));
     initImageSize();
 }
 void MainWindow::on_dstList_currentItemChanged(
         QListWidgetItem* current,
         QListWidgetItem* previous)
 {
-    int i = dst_list_widget->row(current);
-    current_dst = dst_dirs.at(i);
+    current_dst =
+            dst_dirs.at(dst_list_widget->currentRow());
 }
 
 /* QAction slots */
@@ -284,6 +283,7 @@ void MainWindow::on_actionPrevImg_triggered()
 }
 void MainWindow::queueCopy(QString src, QString dst)
 {
+    dst += '/' + name_line_edit->text();
     QString ext = QFileInfo(src).completeSuffix();
     if(dst.contains('.') == false ||
             dst.lastIndexOf(ext) != dst.size() - ext.size())
