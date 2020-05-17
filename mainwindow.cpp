@@ -58,7 +58,6 @@ void MainWindow::config()
 ImgOpData MainWindow::imgOpDefaults(QString img)
 {
     ImgOpData defaults;
-    defaults.img = img;
     defaults.copy_dsts = QStringList();
     defaults.rot = ROT0;
     defaults.crop = false;

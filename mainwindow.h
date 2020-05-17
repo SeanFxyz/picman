@@ -20,8 +20,6 @@ using namespace std;
 enum rotDeg{ROT0, ROT90, ROT180, ROT270};
 struct ImgOpData
 {
-    QString img;
-
     QStringList copy_dsts;
 
     rotDeg rot;
