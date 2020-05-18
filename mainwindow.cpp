@@ -55,16 +55,20 @@ void MainWindow::config()
 //    findChild<QAction*>("actionPrevImg")->setShortcuts(prev_img);
 }
 
-ImgOpData MainWindow::imgOpDefaults(QString img)
+ImgOpData MainWindow::imgOpDefaults()
 {
     ImgOpData defaults;
     defaults.copy_dsts = QStringList();
-    defaults.rot = ROT0;
+    defaults.rot = 0;
     defaults.crop = false;
     defaults.crop_x = 0;
     defaults.crop_y = 0;
     defaults.crop_size = QSize();
     return defaults;
+}
+void MainWindow::addOpData(QString img)
+{
+    img_op_map[img] = imgOpDefaults();
 }
 
 /* */
@@ -192,16 +196,20 @@ void MainWindow::queueCopy(QString src, QString dst)
     else
         dst += '/' + QFileInfo(src).fileName();
 
-    if(img_op_map.count(src))
-        img_op_map[src].copy_dsts << dst;
-    else
-    {
-        ImgOpData new_op_data = imgOpDefaults(src);
-        new_op_data.img = src;
-        new_op_data.copy_dsts << dst;
-        img_op_map[src] = new_op_data;
-    }
+    if(img_op_map.count(src) <= 0)
+        addOpData(src);
+    img_op_map[src].copy_dsts << dst;
+
     op_list_widget->addItem(src + " -> " + dst);
+}
+void MainWindow::queueRot(QString src, char rot90)
+{
+    if(img_op_map.count(src) <= 0)
+        addOpData(src);
+    char current = img_op_map[src].rot;
+    while(rot90 < 0)
+        rot90 += 4;
+    current = (current + rot90) % 4;
 }
 
 /* Doing file operations */
@@ -212,7 +220,7 @@ void MainWindow::runOps()
     {
         QString copySrc = iter.key();
         ImgOpData opdata = iter.value();
-        if(opdata.rot != ROT0 || opdata.crop == true)
+        if(opdata.rot != 0 || opdata.crop == true)
         {
             QTemporaryFile tmp;
             tmp.setAutoRemove(true);

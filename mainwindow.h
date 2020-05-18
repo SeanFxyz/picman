@@ -17,12 +17,11 @@
 
 using namespace std;
 
-enum rotDeg{ROT0, ROT90, ROT180, ROT270};
 struct ImgOpData
 {
     QStringList copy_dsts;
 
-    rotDeg rot;
+    char rot;
 
     bool crop;
     int crop_x, crop_y;
@@ -66,7 +65,8 @@ private:
     /* Private methods */
     void config();
 
-    ImgOpData imgOpDefaults(QString img);
+    ImgOpData imgOpDefaults();
+    void addOpData(QString img);
 
     void addSrc(QString src);
     void addDst(QString dst);
@@ -86,7 +86,10 @@ private:
     void zoomOut();
 
     int findSrcIndex(QString src);
+
+    /* Queueing Operations */
     void queueCopy(QString src, QString dst);
+    void queueRot(QString src, char rot90);
 
     void runOps();
 
