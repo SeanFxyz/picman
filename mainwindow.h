@@ -12,6 +12,7 @@
 #include <QPushButton>
 #include <QMap>
 #include <QTemporaryFile>
+// #include <Magick++.h>
 
 #include "ui_mainwindow.h"
 
@@ -21,11 +22,14 @@ struct ImgOpData
 {
     QStringList copy_dsts;
 
-    char rot;
+    QList<char> ops;
+    // 'r' for rotate, 'c' for crop
 
-    bool crop;
-    int crop_x, crop_y;
-    QSize crop_size;
+    QList<char> rot;
+    QList<QRect> crop;
+
+    char next_rot;
+    QRect next_crop;
 };
 
 namespace Ui {
@@ -92,6 +96,7 @@ private:
     void queueRot(QString src, char rot90);
 
     void runOps();
+    QPixmap modPixmap(QString img);
 
 private slots:
     void on_addDirButton_clicked();

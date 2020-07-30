@@ -58,12 +58,9 @@ void MainWindow::config()
 ImgOpData MainWindow::imgOpDefaults()
 {
     ImgOpData defaults;
-    defaults.copy_dsts = QStringList();
-    defaults.rot = 0;
-    defaults.crop = false;
-    defaults.crop_x = 0;
-    defaults.crop_y = 0;
-    defaults.crop_size = QSize();
+    defaults.ops = QList<char>();
+    defaults.rot = QList<char>();
+    defaults.crop = QList<QRect>();
     return defaults;
 }
 void MainWindow::addOpData(QString img)
@@ -113,7 +110,7 @@ void MainWindow::addSrc(QString src)
             return;
     src_files << src;
     src_list_widget->addItem(new QListWidgetItem(
-                                 QIcon(src), "", src_list_widget));
+                                 QIcon(src), src, src_list_widget));
 }
 void MainWindow::addDst(QString dst)
 {
@@ -206,33 +203,21 @@ void MainWindow::queueRot(QString src, char rot90)
 {
     if(img_op_map.count(src) <= 0)
         addOpData(src);
-    char current = img_op_map[src].rot;
+    char current = img_op_map[src].next_rot;
     while(rot90 < 0)
         rot90 += 4;
-    current = (current + rot90) % 4;
+    img_op_map[src].next_rot = (current + rot90) % 4;
 }
 
 /* Doing file operations */
 void MainWindow::runOps()
 {
-    QMap<QString, ImgOpData>::iterator iter;
+    QMap<QString, ImgOpData>::const_iterator iter;
     for(iter = img_op_map.begin(); iter != img_op_map.end(); ++iter)
     {
         QString copySrc = iter.key();
         ImgOpData opdata = iter.value();
-        if(opdata.rot != 0 || opdata.crop == true)
-        {
-            QTemporaryFile tmp;
-            tmp.setAutoRemove(true);
-            tmp.open();
-            QString tmp_name = tmp.fileName();
-            tmp.remove();
-            QFile(copySrc).copy(tmp_name);
-            copySrc = tmp_name;
 
-            // TODO: run image rotation on temp file
-            // TODO: run crop on temp file
-        }
         QFile src_file(copySrc);
         for(int i=0; i < opdata.copy_dsts.size(); i++)
         {
@@ -241,6 +226,12 @@ void MainWindow::runOps()
     }
     op_list_widget->clear();
     img_op_map.clear();
+}
+QPixmap MainWindow::modPixmap(QString src)
+{
+    QPixmap px(src);
+    QMatrix mat;
+
 }
 
 /* Slots */
@@ -335,7 +326,13 @@ void MainWindow::on_srcList_currentItemChanged(
         QListWidgetItem* previous)
 {
     current_src = src_files.at(src_list_widget->currentRow());
-    img_label->setPixmap(QPixmap(current_src));
+    QPixmap img_pixmap(current_src);
+    if(img_op_map.count(current_src))
+    {
+        ImgOpData op_data = img_op_map[current_src];
+        // TODO: Apply operations to pixmap before displaying.
+    }
+    img_label->setPixmap(img_pixmap);
     initImageSize();
 }
 void MainWindow::on_dstList_currentItemChanged(
