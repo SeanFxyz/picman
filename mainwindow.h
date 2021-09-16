@@ -91,12 +91,10 @@ private slots:
     void on_addDirButton_clicked();
     void on_rmSrcButton_clicked();
     void on_addFilesButton_clicked();
-    void on_cropButton_clicked();
     void on_prevButton_clicked();
     void on_nextButton_clicked();
     void on_addDstButton_clicked();
     void on_rmDstButton_clicked();
-    void on_pushButton_clicked();
     void on_copyButton_clicked();
     void on_applyButton_clicked();
     void on_srcList_currentItemChanged(
@@ -110,6 +108,17 @@ private slots:
     void srcFilesSelected(QStringList selected);
     void dstFilesSelected(QStringList selected);
 
+    /* QAction slots */
+
+    // File menu
+    void on_actionApply_triggered();
+    void on_actionAddSrcDir_triggered();
+    void on_actionAddSrcFiles_triggered();
+    void on_actionRmSrc_triggered();
+    void on_actionAddDst_triggered();
+    void on_actionCopyToDst_triggered();
+
+    // View menu
     void on_actionZoomIn_triggered();
     void on_actionZoomOut_triggered();
     void on_actionNextImg_triggered();

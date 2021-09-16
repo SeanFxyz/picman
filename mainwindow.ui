@@ -246,10 +246,14 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionApply"/>
-    <addaction name="actionAddSource"/>
-    <addaction name="actionAddDestination"/>
     <addaction name="actionCopyToDst"/>
+    <addaction name="actionApply"/>
+    <addaction name="separator"/>
+    <addaction name="actionAddSrcDir"/>
+    <addaction name="actionAddSrcFiles"/>
+    <addaction name="actionRmSrc"/>
+    <addaction name="separator"/>
+    <addaction name="actionAddDst"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -276,15 +280,15 @@
     <string>Ctrl+Shift+Return</string>
    </property>
   </action>
-  <action name="actionAddSource">
+  <action name="actionAddSrcDir">
    <property name="text">
-    <string>Add Source</string>
+    <string>Add Source Directory</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
    </property>
   </action>
-  <action name="actionAddDestination">
+  <action name="actionAddDst">
    <property name="text">
     <string>Add Destination</string>
    </property>
@@ -330,6 +334,16 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+C</string>
+   </property>
+  </action>
+  <action name="actionAddSrcFiles">
+   <property name="text">
+    <string>Add Source Files</string>
+   </property>
+  </action>
+  <action name="actionRmSrc">
+   <property name="text">
+    <string>Remove Source File</string>
    </property>
   </action>
  </widget>

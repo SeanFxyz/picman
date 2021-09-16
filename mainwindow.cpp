@@ -71,7 +71,7 @@ QStringList MainWindow::expandFileList(QStringList file_list)
     QStringList new_file_list;
     for(int i=0; i < file_list.size(); i++)
     {
-        QString file_name = file_list.at(i);
+        QString file_name = file_list[i];
         QFileInfo file_info(file_name);
         if(file_info.isDir())
         {
@@ -103,7 +103,7 @@ void MainWindow::openFileDialog(QFileDialog::FileMode mode)
 void MainWindow::addSrc(QString src)
 {
     for(int i=0; i < src_files.size(); i++)
-        if(src_files.at(i).compare(src) == 0)
+        if(src_files[i].compare(src) == 0)
             return;
     src_files << src;
     src_list_widget->addItem(new QListWidgetItem(
@@ -112,7 +112,7 @@ void MainWindow::addSrc(QString src)
 void MainWindow::addDst(QString dst)
 {
     for(int i=0; i < dst_dirs.size(); i++)
-        if(dst_dirs.at(i).compare(dst) == 0)
+        if(dst_dirs[i].compare(dst) == 0)
             return;
     dst_dirs << dst;
     new QListWidgetItem(dst, dst_list_widget, QListWidgetItem::Type);
@@ -126,7 +126,7 @@ void MainWindow::rmSrc(int src)
 void MainWindow::rmSrc(QString src)
 {
     for(int i=0; i < src_files.size(); i++)
-        if(src_files.at(i).compare(src) == 0)
+        if(src_files[i].compare(src) == 0)
             rmSrc(i);
 }
 void MainWindow::rmDst(int dst)
@@ -138,7 +138,7 @@ void MainWindow::rmDst(int dst)
 void MainWindow::rmDst(QString dst)
 {
     for(int i=0; i< dst_dirs.size(); i++)
-        if(src_files.at(i).compare(dst) == 0)
+        if(src_files[i].compare(dst) == 0)
             rmDst(i);
 }
 
@@ -211,7 +211,7 @@ void MainWindow::runOps()
         QFile src_file(copySrc);
         for(int i=0; i < opdata.copy_dsts.size(); i++)
         {
-            src_file.copy(opdata.copy_dsts.at(i));
+            src_file.copy(opdata.copy_dsts[i]);
         }
     }
     op_list_widget->clear();
@@ -222,24 +222,15 @@ void MainWindow::runOps()
 /* Widget slots */
 void MainWindow::on_addDirButton_clicked()
 {
-    openFileDialog(QFileDialog::Directory);
-    connect(file_dialog, &QFileDialog::filesSelected,
-            this, &MainWindow::srcFilesSelected);
-    file_dialog->show();
+    on_actionAddSrcDir_triggered();
 }
 void MainWindow::on_addFilesButton_clicked()
 {
-    openFileDialog(QFileDialog::ExistingFiles);
-    connect(file_dialog, &QFileDialog::filesSelected,
-            this, &MainWindow::srcFilesSelected);
-    file_dialog->show();
+    on_actionAddSrcFiles_triggered();
 }
 void MainWindow::on_rmSrcButton_clicked()
 {
-    rmSrc(src_list_widget->currentRow());
-}
-void MainWindow::on_cropButton_clicked()
-{
+    on_actionRmSrc_triggered();
 }
 void MainWindow::on_prevButton_clicked()
 {
@@ -251,25 +242,19 @@ void MainWindow::on_nextButton_clicked()
 }
 void MainWindow::on_addDstButton_clicked()
 {
-    openFileDialog(QFileDialog::Directory);
-    connect(file_dialog, &QFileDialog::filesSelected,
-            this, &MainWindow::dstFilesSelected);
-    file_dialog->show();
+    on_actionAddDst_triggered();
 }
 void MainWindow::on_rmDstButton_clicked()
 {
     rmDst(dst_list_widget->currentRow());
 }
-void MainWindow::on_pushButton_clicked()
-{
-}
 void MainWindow::on_copyButton_clicked()
 {
-    queueCopy(current_src, current_dst);
+    on_actionCopyToDst_triggered();
 }
 void MainWindow::on_applyButton_clicked()
 {
-    runOps();
+    on_actionApply_triggered();
 }
 void MainWindow::srcFilesSelected(QStringList selected)
 {
@@ -278,7 +263,7 @@ void MainWindow::srcFilesSelected(QStringList selected)
          << "Adding source files:\n";
     for(int i=0; i < new_files.size(); i++)
     {
-        addSrc(new_files.at(i));
+        addSrc(new_files[i]);
     }
     cout << "Done.\n"
          << "--------------------\n";
@@ -288,18 +273,10 @@ void MainWindow::dstFilesSelected(QStringList selected)
 {
     for(int i=0; i < selected.size(); i++)
     {
-        QString currentFile = selected.at(i);
+        QString currentFile = selected[i];
         if(QFileInfo(currentFile).isDir())
             addDst(currentFile);
     }
-}
-void MainWindow::on_actionZoomIn_triggered()
-{
-    zoomIn();
-}
-void MainWindow::on_actionZoomOut_triggered()
-{
-    zoomOut();
 }
 void MainWindow::on_dstList_itemDoubleClicked(QListWidgetItem* item)
 {
@@ -319,10 +296,52 @@ void MainWindow::on_dstList_currentItemChanged(
         QListWidgetItem* previous)
 {
     current_dst =
-            dst_dirs.at(dst_list_widget->currentRow());
+            dst_dirs[dst_list_widget->currentRow()];
 }
 
 /* QAction slots */
+
+// File menu
+void MainWindow::on_actionApply_triggered()
+{
+    runOps();
+}
+
+void MainWindow::on_actionAddSrcDir_triggered()
+{
+    openFileDialog(QFileDialog::Directory);
+    connect(file_dialog, &QFileDialog::filesSelected,
+            this, &MainWindow::srcFilesSelected);
+    file_dialog->show();
+}
+
+void MainWindow::on_actionAddSrcFiles_triggered()
+{
+    openFileDialog(QFileDialog::ExistingFiles);
+    connect(file_dialog, &QFileDialog::filesSelected,
+            this, &MainWindow::srcFilesSelected);
+    file_dialog->show();
+}
+
+void MainWindow::on_actionRmSrc_triggered()
+{
+    rmSrc(src_list_widget->currentRow());
+}
+
+void MainWindow::on_actionAddDst_triggered()
+{
+    openFileDialog(QFileDialog::Directory);
+    connect(file_dialog, &QFileDialog::filesSelected,
+            this, &MainWindow::dstFilesSelected);
+    file_dialog->show();
+}
+
+void MainWindow::on_actionCopyToDst_triggered()
+{
+    queueCopy(current_src, current_dst);
+}
+
+// View menu
 void MainWindow::on_actionNextImg_triggered()
 {
     nextImg();
@@ -330,4 +349,12 @@ void MainWindow::on_actionNextImg_triggered()
 void MainWindow::on_actionPrevImg_triggered()
 {
     prevImg();
+}
+void MainWindow::on_actionZoomIn_triggered()
+{
+    zoomIn();
+}
+void MainWindow::on_actionZoomOut_triggered()
+{
+    zoomOut();
 }
