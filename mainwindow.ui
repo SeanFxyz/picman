@@ -276,21 +276,6 @@
     <string>Ctrl+Shift+Return</string>
    </property>
   </action>
-  <action name="actionThumbnails">
-   <property name="text">
-    <string>Thumbnails</string>
-   </property>
-  </action>
-  <action name="actionFilenames">
-   <property name="text">
-    <string>File names</string>
-   </property>
-  </action>
-  <action name="actionFilenamesAndThumbnails">
-   <property name="text">
-    <string>File names + Thumbnails</string>
-   </property>
-  </action>
   <action name="actionAddSource">
    <property name="text">
     <string>Add Source</string>
@@ -305,36 +290,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+D</string>
-   </property>
-  </action>
-  <action name="actionCrop">
-   <property name="text">
-    <string>Crop</string>
-   </property>
-  </action>
-  <action name="actionRotate90Right">
-   <property name="text">
-    <string>Rotate 90° right</string>
-   </property>
-  </action>
-  <action name="actionRotate90Left">
-   <property name="text">
-    <string>Rotate 90° left</string>
-   </property>
-  </action>
-  <action name="actionClearMetadata">
-   <property name="text">
-    <string>Clear metadata (jpg/jpeg)</string>
-   </property>
-  </action>
-  <action name="actionEditMetadata">
-   <property name="text">
-    <string>Edit metadata (jpg/jpeg)</string>
-   </property>
-  </action>
-  <action name="actionRotate180">
-   <property name="text">
-    <string>Rotate 180°</string>
    </property>
   </action>
   <action name="actionZoomIn">
