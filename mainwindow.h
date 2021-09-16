@@ -21,15 +21,6 @@ using namespace std;
 struct ImgOpData
 {
     QStringList copy_dsts;
-
-    QList<char> ops;
-    // 'r' for rotate, 'c' for crop
-
-    QList<char> rot;
-    QList<QRect> crop;
-
-    char next_rot;
-    QRect next_crop;
 };
 
 namespace Ui {
@@ -93,10 +84,8 @@ private:
 
     /* Queueing Operations */
     void queueCopy(QString src, QString dst);
-    void queueRot(QString src, char rot90);
 
     void runOps();
-    QPixmap modPixmap(QString img);
 
 private slots:
     void on_addDirButton_clicked();

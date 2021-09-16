@@ -58,9 +58,6 @@ void MainWindow::config()
 ImgOpData MainWindow::imgOpDefaults()
 {
     ImgOpData defaults;
-    defaults.ops = QList<char>();
-    defaults.rot = QList<char>();
-    defaults.crop = QList<QRect>();
     return defaults;
 }
 void MainWindow::addOpData(QString img)
@@ -151,7 +148,7 @@ void MainWindow::initImageSize()
     scale = .99;
     img_label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     img_label->resize(
-                img_label->pixmap()->size().scaled(
+                img_label->pixmap((Qt::ReturnByValueConstant)0).size().scaled(
                     img_scroll_area->size() * scale, Qt::KeepAspectRatio));
 }
 void MainWindow::zoomIn()
@@ -172,11 +169,13 @@ void MainWindow::scaleImage(double factor)
 }
 void MainWindow::nextImg()
 {
-    src_list_widget->setCurrentRow(src_list_widget->currentRow() + 1);
+    if (src_list_widget->currentRow() < src_list_widget->count() - 1)
+        src_list_widget->setCurrentRow(src_list_widget->currentRow() + 1);
 }
 void MainWindow::prevImg()
 {
-    src_list_widget->setCurrentRow(src_list_widget->currentRow() - 1);
+    if (src_list_widget->currentRow() > 0)
+        src_list_widget->setCurrentRow(src_list_widget->currentRow() - 1);
 }
 
 /* Queueing file operations */
@@ -199,15 +198,6 @@ void MainWindow::queueCopy(QString src, QString dst)
 
     op_list_widget->addItem(src + " -> " + dst);
 }
-void MainWindow::queueRot(QString src, char rot90)
-{
-    if(img_op_map.count(src) <= 0)
-        addOpData(src);
-    char current = img_op_map[src].next_rot;
-    while(rot90 < 0)
-        rot90 += 4;
-    img_op_map[src].next_rot = (current + rot90) % 4;
-}
 
 /* Doing file operations */
 void MainWindow::runOps()
@@ -226,12 +216,6 @@ void MainWindow::runOps()
     }
     op_list_widget->clear();
     img_op_map.clear();
-}
-QPixmap MainWindow::modPixmap(QString src)
-{
-    QPixmap px(src);
-    QMatrix mat;
-
 }
 
 /* Slots */
@@ -325,13 +309,8 @@ void MainWindow::on_srcList_currentItemChanged(
         QListWidgetItem* current,
         QListWidgetItem* previous)
 {
-    current_src = src_files.at(src_list_widget->currentRow());
+    current_src = src_files[src_list_widget->currentRow()];
     QPixmap img_pixmap(current_src);
-    if(img_op_map.count(current_src))
-    {
-        ImgOpData op_data = img_op_map[current_src];
-        // TODO: Apply operations to pixmap before displaying.
-    }
     img_label->setPixmap(img_pixmap);
     initImageSize();
 }

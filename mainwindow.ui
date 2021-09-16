@@ -88,47 +88,6 @@
           <item>
            <layout class="QHBoxLayout" name="editToolsHBox">
             <item>
-             <widget class="QPushButton" name="delButton">
-              <property name="text">
-               <string>🗑</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="cropButton">
-              <property name="text">
-               <string>✂</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="rot180Button_2">
-              <property name="text">
-               <string>↻</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="rot90LeftButton">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>↶</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="rot90RightButton">
-              <property name="text">
-               <string>↷</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <widget class="QPushButton" name="prevButton">
               <property name="text">
                <string>←</string>
@@ -173,8 +132,8 @@
             <widget class="QWidget" name="scrollAreaWidgetContents">
              <property name="geometry">
               <rect>
-               <x>0</x>
-               <y>3</y>
+               <x>31</x>
+               <y>50</y>
                <width>835</width>
                <height>741</height>
               </rect>
@@ -280,7 +239,7 @@
      <x>0</x>
      <y>0</y>
      <width>1451</width>
-     <height>34</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -290,39 +249,19 @@
     <addaction name="actionApply"/>
     <addaction name="actionAddSource"/>
     <addaction name="actionAddDestination"/>
+    <addaction name="actionCopyToDst"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
      <string>View</string>
     </property>
-    <widget class="QMenu" name="menuList_View">
-     <property name="title">
-      <string>List View</string>
-     </property>
-     <addaction name="actionThumbnails"/>
-     <addaction name="actionFilenames"/>
-     <addaction name="actionFilenamesAndThumbnails"/>
-    </widget>
-    <addaction name="menuList_View"/>
     <addaction name="actionZoomIn"/>
     <addaction name="actionZoomOut"/>
     <addaction name="actionNextImg"/>
     <addaction name="actionPrevImg"/>
    </widget>
-   <widget class="QMenu" name="menuEdit">
-    <property name="title">
-     <string>Edit</string>
-    </property>
-    <addaction name="actionCrop"/>
-    <addaction name="actionRotate90Right"/>
-    <addaction name="actionRotate90Left"/>
-    <addaction name="actionRotate180"/>
-    <addaction name="actionClearMetadata"/>
-    <addaction name="actionEditMetadata"/>
-   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuView"/>
-   <addaction name="menuEdit"/>
   </widget>
   <action name="actionOpen">
    <property name="text">
@@ -332,6 +271,9 @@
   <action name="actionApply">
    <property name="text">
     <string>Apply Operations</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+Return</string>
    </property>
   </action>
   <action name="actionThumbnails">
@@ -353,10 +295,16 @@
    <property name="text">
     <string>Add Source</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
   </action>
   <action name="actionAddDestination">
    <property name="text">
     <string>Add Destination</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
    </property>
   </action>
   <action name="actionCrop">
@@ -419,6 +367,14 @@
    </property>
    <property name="shortcut">
     <string>H</string>
+   </property>
+  </action>
+  <action name="actionCopyToDst">
+   <property name="text">
+    <string>Copy to Selected</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+C</string>
    </property>
   </action>
  </widget>
