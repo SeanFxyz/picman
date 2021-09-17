@@ -105,6 +105,7 @@ void MainWindow::addSrc(QString src)
     for(int i=0; i < src_files.size(); i++)
         if(src_files[i].compare(src) == 0)
             return;
+
     src_files << src;
     src_list_widget->addItem(new QListWidgetItem(
                                  QIcon(src), src, src_list_widget));
@@ -258,6 +259,10 @@ void MainWindow::on_applyButton_clicked()
 }
 void MainWindow::srcFilesSelected(QStringList selected)
 {
+    // Set cursor to busy to show we're working.
+    this->setCursor(Qt::BusyCursor);
+    file_dialog->setCursor(Qt::BusyCursor);
+
     QStringList new_files = expandFileList(selected);
     cout << "--------------------\n"
          << "Adding source files:\n";
@@ -268,15 +273,24 @@ void MainWindow::srcFilesSelected(QStringList selected)
     cout << "Done.\n"
          << "--------------------\n";
 
+    // Set cursor back to normal.
+    this->setCursor(Qt::ArrowCursor);
 }
 void MainWindow::dstFilesSelected(QStringList selected)
 {
+    // Set cursor to busy to show we're working.
+    this->setCursor(Qt::BusyCursor);
+    file_dialog->setCursor(Qt::BusyCursor);
+
     for(int i=0; i < selected.size(); i++)
     {
         QString currentFile = selected[i];
         if(QFileInfo(currentFile).isDir())
             addDst(currentFile);
     }
+
+    // Set cursor back to normal.
+    this->setCursor(Qt::ArrowCursor);
 }
 void MainWindow::on_dstList_itemDoubleClicked(QListWidgetItem* item)
 {
