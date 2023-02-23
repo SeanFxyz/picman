@@ -12,7 +12,6 @@
 #include <QPushButton>
 #include <QMap>
 #include <QTemporaryFile>
-// #include <Magick++.h>
 
 #include "ui_mainwindow.h"
 
@@ -126,3 +125,4 @@ private slots:
 };
 
 #endif // MAINWINDOW_H
+

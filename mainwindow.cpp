@@ -6,8 +6,7 @@
 using namespace std;
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
@@ -18,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // QListWidgets
     src_list_widget = findChild<QListWidget*>("srcList");
     dst_list_widget = findChild<QListWidget*>("dstList");
-    op_list_widget = findChild<QListWidget*>("copyList");
+    op_list_widget  = findChild<QListWidget*>("copyList");
 
     // Image viewer area setup
     img_label = new QLabel();
@@ -33,10 +32,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     file_dialog = nullptr;
 }
+
+
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
 
 void MainWindow::config()
 {
@@ -55,17 +57,20 @@ void MainWindow::config()
 //    findChild<QAction*>("actionPrevImg")->setShortcuts(prev_img);
 }
 
+
 ImgOpData MainWindow::imgOpDefaults()
 {
     ImgOpData defaults;
     return defaults;
 }
+
+
 void MainWindow::addOpData(QString img)
 {
     img_op_map[img] = imgOpDefaults();
 }
 
-/* */
+
 QStringList MainWindow::expandFileList(QStringList file_list)
 {
     QStringList new_file_list;
@@ -89,17 +94,23 @@ QStringList MainWindow::expandFileList(QStringList file_list)
     }
     return new_file_list;
 }
+
+
 bool MainWindow::isSupportedFile(QString file)
 {
     QImageReader img_reader(file);
     QImage img;
     return img_reader.read(&img);
 }
+
+
 void MainWindow::openFileDialog(QFileDialog::FileMode mode)
 {
     file_dialog = new QFileDialog();
     file_dialog->setFileMode(mode);
 }
+
+
 void MainWindow::addSrc(QString src)
 {
     for(int i=0; i < src_files.size(); i++)
@@ -110,6 +121,8 @@ void MainWindow::addSrc(QString src)
     src_list_widget->addItem(new QListWidgetItem(
                                  QIcon(src), src, src_list_widget));
 }
+
+
 void MainWindow::addDst(QString dst)
 {
     for(int i=0; i < dst_dirs.size(); i++)
@@ -118,30 +131,39 @@ void MainWindow::addDst(QString dst)
     dst_dirs << dst;
     new QListWidgetItem(dst, dst_list_widget, QListWidgetItem::Type);
 }
+
+
 void MainWindow::rmSrc(int src)
 {
     src_files.removeAt(src);
     QListWidgetItem* src_item = src_list_widget->takeItem(src);
     delete src_item;
 }
+
+
 void MainWindow::rmSrc(QString src)
 {
     for(int i=0; i < src_files.size(); i++)
         if(src_files[i].compare(src) == 0)
             rmSrc(i);
 }
+
+
 void MainWindow::rmDst(int dst)
 {
     dst_dirs.removeAt(dst);
     QListWidgetItem* dst_item = dst_list_widget->takeItem(dst);
     delete dst_item;
 }
+
+
 void MainWindow::rmDst(QString dst)
 {
     for(int i=0; i< dst_dirs.size(); i++)
         if(src_files[i].compare(dst) == 0)
             rmDst(i);
 }
+
 
 /* Image viewer functions */
 void MainWindow::initImageSize()
@@ -152,14 +174,20 @@ void MainWindow::initImageSize()
                 img_label->pixmap((Qt::ReturnByValueConstant)0).size().scaled(
                     img_scroll_area->size() * scale, Qt::KeepAspectRatio));
 }
+
+
 void MainWindow::zoomIn()
 {
     scaleImage(1.25);
 }
+
+
 void MainWindow::zoomOut()
 {
     scaleImage(0.8);
 }
+
+
 void MainWindow::scaleImage(double factor)
 {
     if(img_label->hasScaledContents())
@@ -168,16 +196,21 @@ void MainWindow::scaleImage(double factor)
         img_label->resize(factor * img_label->size());
     }
 }
+
+
 void MainWindow::nextImg()
 {
     if (src_list_widget->currentRow() < src_list_widget->count() - 1)
         src_list_widget->setCurrentRow(src_list_widget->currentRow() + 1);
 }
+
+
 void MainWindow::prevImg()
 {
     if (src_list_widget->currentRow() > 0)
         src_list_widget->setCurrentRow(src_list_widget->currentRow() - 1);
 }
+
 
 /* Queueing file operations */
 void MainWindow::queueCopy(QString src, QString dst)
@@ -200,6 +233,7 @@ void MainWindow::queueCopy(QString src, QString dst)
     op_list_widget->addItem(src + " -> " + dst);
 }
 
+
 /* Doing file operations */
 void MainWindow::runOps()
 {
@@ -219,44 +253,63 @@ void MainWindow::runOps()
     img_op_map.clear();
 }
 
+
 /* Slots */
 /* Widget slots */
 void MainWindow::on_addDirButton_clicked()
 {
     on_actionAddSrcDir_triggered();
 }
+
+
 void MainWindow::on_addFilesButton_clicked()
 {
     on_actionAddSrcFiles_triggered();
 }
+
+
 void MainWindow::on_rmSrcButton_clicked()
 {
     on_actionRmSrc_triggered();
 }
+
+
 void MainWindow::on_prevButton_clicked()
 {
     prevImg();
 }
+
+
 void MainWindow::on_nextButton_clicked()
 {
     nextImg();
 }
+
+
 void MainWindow::on_addDstButton_clicked()
 {
     on_actionAddDst_triggered();
 }
+
+
 void MainWindow::on_rmDstButton_clicked()
 {
     rmDst(dst_list_widget->currentRow());
 }
+
+
 void MainWindow::on_copyButton_clicked()
 {
     on_actionCopyToDst_triggered();
 }
+
+
 void MainWindow::on_applyButton_clicked()
 {
     on_actionApply_triggered();
 }
+
+
 void MainWindow::srcFilesSelected(QStringList selected)
 {
     // Set cursor to busy to show we're working.
@@ -276,6 +329,8 @@ void MainWindow::srcFilesSelected(QStringList selected)
     // Set cursor back to normal.
     this->setCursor(Qt::ArrowCursor);
 }
+
+
 void MainWindow::dstFilesSelected(QStringList selected)
 {
     // Set cursor to busy to show we're working.
@@ -292,26 +347,31 @@ void MainWindow::dstFilesSelected(QStringList selected)
     // Set cursor back to normal.
     this->setCursor(Qt::ArrowCursor);
 }
+
+
 void MainWindow::on_dstList_itemDoubleClicked(QListWidgetItem* item)
 {
     queueCopy(current_src, current_dst);
 }
+
+
 void MainWindow::on_srcList_currentItemChanged(
-        QListWidgetItem* current,
-        QListWidgetItem* previous)
+        QListWidgetItem* current, QListWidgetItem* previous)
 {
     current_src = src_files[src_list_widget->currentRow()];
     QPixmap img_pixmap(current_src);
     img_label->setPixmap(img_pixmap);
     initImageSize();
 }
+
+
 void MainWindow::on_dstList_currentItemChanged(
-        QListWidgetItem* current,
-        QListWidgetItem* previous)
+        QListWidgetItem* current, QListWidgetItem* previous)
 {
     current_dst =
             dst_dirs[dst_list_widget->currentRow()];
 }
+
 
 /* QAction slots */
 
@@ -321,6 +381,7 @@ void MainWindow::on_actionApply_triggered()
     runOps();
 }
 
+
 void MainWindow::on_actionAddSrcDir_triggered()
 {
     openFileDialog(QFileDialog::Directory);
@@ -328,6 +389,7 @@ void MainWindow::on_actionAddSrcDir_triggered()
             this, &MainWindow::srcFilesSelected);
     file_dialog->show();
 }
+
 
 void MainWindow::on_actionAddSrcFiles_triggered()
 {
@@ -337,10 +399,12 @@ void MainWindow::on_actionAddSrcFiles_triggered()
     file_dialog->show();
 }
 
+
 void MainWindow::on_actionRmSrc_triggered()
 {
     rmSrc(src_list_widget->currentRow());
 }
+
 
 void MainWindow::on_actionAddDst_triggered()
 {
@@ -350,24 +414,32 @@ void MainWindow::on_actionAddDst_triggered()
     file_dialog->show();
 }
 
+
 void MainWindow::on_actionCopyToDst_triggered()
 {
     queueCopy(current_src, current_dst);
 }
+
 
 // View menu
 void MainWindow::on_actionNextImg_triggered()
 {
     nextImg();
 }
+
+
 void MainWindow::on_actionPrevImg_triggered()
 {
     prevImg();
 }
+
+
 void MainWindow::on_actionZoomIn_triggered()
 {
     zoomIn();
 }
+
+
 void MainWindow::on_actionZoomOut_triggered()
 {
     zoomOut();

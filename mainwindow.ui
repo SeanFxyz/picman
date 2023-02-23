@@ -133,7 +133,7 @@
              <property name="geometry">
               <rect>
                <x>31</x>
-               <y>50</y>
+               <y>60</y>
                <width>835</width>
                <height>741</height>
               </rect>
@@ -239,7 +239,7 @@
      <x>0</x>
      <y>0</y>
      <width>1451</width>
-     <height>22</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -301,7 +301,7 @@
     <string>Zoom in</string>
    </property>
    <property name="shortcut">
-    <string>K</string>
+    <string>Up</string>
    </property>
   </action>
   <action name="actionZoomOut">
@@ -309,7 +309,7 @@
     <string>Zoom out</string>
    </property>
    <property name="shortcut">
-    <string>J</string>
+    <string>Down</string>
    </property>
   </action>
   <action name="actionNextImg">
@@ -317,7 +317,7 @@
     <string>Next image</string>
    </property>
    <property name="shortcut">
-    <string>L</string>
+    <string>Right</string>
    </property>
   </action>
   <action name="actionPrevImg">
@@ -325,7 +325,7 @@
     <string>Prev image</string>
    </property>
    <property name="shortcut">
-    <string>H</string>
+    <string>Left</string>
    </property>
   </action>
   <action name="actionCopyToDst">
